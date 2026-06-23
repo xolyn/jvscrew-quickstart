@@ -8,10 +8,8 @@ export default function SandboxPanel() {
   const {
     currentResourceUrl,
     sandboxPreviewOpen,
-    sandboxMinimized,
     isPolling,
     minimizeSandbox,
-    restoreSandbox,
     refreshSandbox,
     sandboxInfo,
   } = useSandboxStore();

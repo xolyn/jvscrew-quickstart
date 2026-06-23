@@ -75,16 +75,6 @@ let pendingTokenRequest: Promise<string> | null = null;
 
 const STORAGE_KEY = 'jvscrew_auth';
 
-function loadPersistedAuth(): { externalUserId: string; templateId?: string } | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const data = JSON.parse(raw);
-    if (data && typeof data.externalUserId === 'string') return data;
-  } catch { /* ignore */ }
-  return null;
-}
-
 function persistAuth(externalUserId: string, templateId?: string) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ externalUserId, templateId }));
 }
@@ -226,7 +216,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         ? { ...current, templateId: expert.id, templateName: expert.name }
         : { externalUserId: current.externalUserId }
       : null;
-    if (newConfig) persistAuth(newConfig.externalUserId, newConfig.templateId);
+    if (newConfig) {
+      const templateId = 'templateId' in newConfig ? newConfig.templateId : undefined;
+      persistAuth(newConfig.externalUserId, templateId);
+    }
     set({ selectedExpert: expert, config: newConfig });
   },
 

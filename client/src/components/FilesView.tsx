@@ -945,7 +945,7 @@ export default function FilesView() {
                   className="flex items-center h-full px-1 whitespace-nowrap shrink-0"
                   style={{ width: widths[3], minWidth: COLUMNS[3].minWidth }}
                 >
-                  {formatDate(file.ModifiedAt)}
+                  {file.ModifiedAt ? formatDate(file.ModifiedAt) : '-'}
                 </div>
 
                 {/* Col: 操作 */}
