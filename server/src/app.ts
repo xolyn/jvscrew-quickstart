@@ -10,6 +10,14 @@ import filesRouter from './routes/files.js';
 import channelsRouter from './routes/channels.js';
 
 function normalizeJsonBody(req: Request): void {
+  if (Buffer.isBuffer(req.body)) {
+    try {
+      req.body = JSON.parse(req.body.toString('utf8'));
+    } catch {
+      req.body = {};
+    }
+    return;
+  }
   if (typeof req.body === 'string' && req.body.length > 0) {
     try {
       req.body = JSON.parse(req.body);
